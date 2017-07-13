@@ -32,8 +32,10 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
- 
- 
+#added devise
+gem 'devise' 
+#added country_select
+gem 'country_select' 
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -57,3 +59,8 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "bcrypt", :require => "bcrypt"
+
+#added multi-select
+gem 'multi-select-rails'
+#added for sendi mail
+gem "devise-async"
