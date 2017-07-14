@@ -1,55 +1,62 @@
+<div class="container text-center">
 <h2>Sign up</h2>
-
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
-  <div class="field">
-    <%= f.label :firstname %><br />
-    <%= f.text_field :firstname %>
+  <div class="field col-md-12">
+    <p class="col-md-6"><%= f.label :firstname %></p>
+    <p class="col-md-6"><%= f.text_field :firstname %></p>
   </div>
  
-  <div class="field">
-    <%= f.label :lastname %><br />
-    <%= f.text_field :lastname %>
+  <div class="field col-md-12">
+    <p class="col-md-6"><%= f.label :lastname %></p>
+    <p class="col-md-6"><%= f.text_field :lastname %></p>
   </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+  <div class="field col-md-12">
+    <p class="col-md-6"><%= f.label :email %></p>
+    <p class="col-md-6"><%= f.email_field :email, autofocus: true %></p>
   </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
+  <div class="field col-md-12">
+    <p class="col-md-6"><%= f.label :password %></p>
+    <p class="col-md-6"><% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+   <%= f.password_field :password, autocomplete: "off" %></p>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  <div class="field col-md-12">
+    <p class="col-md-6"><%= f.label :password_confirmation %></p>
+    <p class="col-md-6"><%= f.password_field :password_confirmation, autocomplete: "off" %></p>
   </div>
 
-  <div class="field">
-    <%= f.label :country %></br>
-    <%= f.country_select :country %>
+  <div class="field col-md-12">
+    <p class="col-md-6"><%= f.label :country %></p>
+    <p class="col-md-6"><%= f.country_select :country %></p>
   </div>
   
-  <div class="field">
-   <%= f.label :language %></br>
-   <%= f.select :language,User::ALLOWED_LANGUAGES, multiple: true%>
+  <div class="field col-md-12">
+    <p class="col-md-6"><%= f.label :language %></p>
+    <p class="col-md-6"><%= f.select :language,User::ALLOWED_LANGUAGES, multiple: true%></p>
   </div>
 
-  <div class="field">
-    <%= f.label :birth_date%>
-    <%= select_date Date.today, prefix: :start_date %>
+  <div class="field col-md-12">
+    <p class="col-md-6"><%= f.label :birth_date %></p>
+    <p class="col-md-6"><%= select_date Date.today, prefix: :start_date %></p>
   </div>
   
-   <div class="actions">
+  <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
+
 <% end %>
 
-<%= render "devise/shared/links" %>
-
+<div class="col-md-12 text-left">
+  <h4>
+    <%- if controller_name != 'sessions' %>
+      <%= link_to "Click to Sign in", new_session_path(resource_name) %><br />
+    <% end -%>
+  </h4>
+</div>
+</div>

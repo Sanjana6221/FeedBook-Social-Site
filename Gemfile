@@ -62,5 +62,7 @@ gem "bcrypt", :require => "bcrypt"
 
 #added multi-select
 gem 'multi-select-rails'
-#added for sendi mail
+#added for send mail
 gem "devise-async"
+
+gem "twitter-bootstrap-rails"
