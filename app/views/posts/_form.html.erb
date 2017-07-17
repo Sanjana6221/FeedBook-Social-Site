@@ -1,0 +1,24 @@
+
+  <%= form_for @post do |f| %>
+  <div class="col-md-12 text-left">
+
+    <div class="col-md-6">
+      <%= f.label :content %><br>
+      <%= f.text_field :content %>
+    </div>
+        
+    <div class="col-md-6">
+      <%= f.label :image %><br>
+      <%= f.file_field :image %>
+    </div>
+       
+    <div class="col-md-12 post-content">
+      <%= f.label :privacy_type%> 
+      <%= f.select :privacy_type, Post.privacy_types %>
+    </div>
+        
+    <div class="col-md-12 post-content">
+      <%= f.submit %>
+    </div>
+  </div>
+  <% end %>

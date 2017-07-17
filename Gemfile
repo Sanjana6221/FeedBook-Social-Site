@@ -66,3 +66,7 @@ gem 'multi-select-rails'
 gem "devise-async"
 
 gem "twitter-bootstrap-rails"
+#added for uploading files
+gem 'carrierwave', '~> 1.0'
+
+gem "mini_magick"
