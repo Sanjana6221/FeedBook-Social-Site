@@ -3,6 +3,11 @@ class PostsController < ApplicationController
 	def index
 		@post = Post.new
 		@posts = Post.all
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @users }
+    end
+    Post.order(updated_at:"DESC")
 	end
 	
   def create
@@ -16,9 +21,10 @@ class PostsController < ApplicationController
       end
 	end
 
-	# def show
-	# 	Posts.order(updated_at:"DESC")
-	# end
+		def show
+			@user = User.find(params[:id])
+			Post.order(created_at:"DESC")
+	  end
 	
 	def destroy
 		@post = Post.find(params[:id])
@@ -28,6 +34,9 @@ class PostsController < ApplicationController
 
 	def edit
 		@post = Post.find(params[:id])
+		respond_to do |format|
+   		format.js
+		end
 	end
 
 	def update

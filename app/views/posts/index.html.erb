@@ -1,11 +1,15 @@
 <div class="container">
 	<div class="col-md-12">
 		<div class="col-md-3">
-			<h4>Posts</h4>
+			<% if user_signed_in? %>
+				<h4><%= link_to('Posts', posts_path) %></h4>        
+			<% end %>
 		</div>
 
 		<div class="col-md-3">
-			<h4>Profile</h4>
+			<% if user_signed_in? %>
+				<h4><%= link_to('Profile', profile_path(current_user.id)) %></h4>        
+			<% end %>
 		</div>
 
 		<div class="col-md-3">
@@ -22,6 +26,7 @@
 	<div class="col-md-12 text-center">
 		<h3>Welcome <%= current_user.firstname.capitalize%></h3>
 	</div>
+
 	<div class="col-md-12 post-content">
 		<div class="col-md-6">
 			 <h4><%= link_to 'Add Post', posts_path%></h4>
@@ -45,7 +50,8 @@
 					<p>
 						<%= link_to 'Destroy', post_path(post),
 			            data: {:confirm => 'Are you sure?'}, :method => :delete %>
-			      <%= link_to 'Edit',posts_path(post)%>
+			      <%= link_to 'Edit',edit_post_path(post), remote:true%>
+			      
 			    </p>
 				</div>
 			<% end %>

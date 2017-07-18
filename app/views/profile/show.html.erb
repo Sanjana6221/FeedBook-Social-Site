@@ -1,0 +1,73 @@
+<div class="containert text-center">
+	<div class="col-md-12">
+		<div class="col-md-3">
+			<% if user_signed_in? %>
+				<h4><%= link_to('Posts', posts_path) %></h4>        
+			<% end %>
+		</div>
+
+		<div class="col-md-3">
+			<% if user_signed_in? %>
+				<h4><%= link_to('Profile', profile_path(current_user.id)) %></h4>  
+			<% end %>
+		</div>
+
+		<div class="col-md-3">
+			<h4>Bookmarks</h4>
+		</div>
+
+		<div class="col-md-3">
+			<% if user_signed_in? %>
+				<h4><%= link_to('Logout', destroy_user_session_path, method: :delete) %></h4>        
+			<% end %>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="col-md-6">
+			<h4><b>User Basic Information</b></h4>
+				
+				<div class="col-md-12">
+					<p class="col-md-6">Firstname:</p>
+					<p class="col-md-6"><%= @user.firstname %></p>
+				</div>
+	
+				<div class="col-md-12">
+					<p class="col-md-6">Lastname:</p>
+					<p class="col-md-6"><%= @user.lastname %></p>
+				</div>
+
+				<div class="col-md-12">
+					<p class="col-md-6">Country:</p>
+					<p class="col-md-6"><%= @user.country %></p>
+				</div>
+
+				<div class="col-md-12">
+					<p class="col-md-6">language:</p>
+					<p class="col-md-6"><%= @user.language %></p>
+				</div>
+
+				<div class="col-md-12">
+					<p class="col-md-6">Email:</p>
+					<p class="col-md-6"><%= @user.email %></p>
+				</div>
+
+				<div class="col-md-12">
+					<p class="col-md-6">Birth date:</p>
+					<p class="col-md-6"><%#= @user.birth_date %></p>
+				</div>
+
+				<div class="col-md-12">
+					<p class="col-md-6">Pic:</p>
+					<p class="col-md-6"><%#= image_tag @user.image_url.to_s if @user.image_url.present? %>
+				</div>
+
+				<button><%= link_to 'Edit Profile', edit_user_registration_path() %></button>
+		</div>
+	
+		<div class="col-md-6">
+			<h4><b>Friends</b></h4>
+		</div>
+	</div>
+</div>
+
+
