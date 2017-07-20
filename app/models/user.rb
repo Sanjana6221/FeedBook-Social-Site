@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :friends, :through => :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
 	has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+ 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,:confirmable
 
@@ -13,16 +14,10 @@ class User < ApplicationRecord
 
   ALLOWED_LANGUAGES = ["Hindi", "English", "Other"]
 
-  def category_name
-    User.try(:email)
+  def self.search_user(search)
+    if search.present?
+      @user = User.find_by(email: search)
+    end
   end
-
-  def category_name=(email)
-    self.category = User.find_or_create_by_name(email) if email.present?
-  end
-  
 end
 
-
-
- 

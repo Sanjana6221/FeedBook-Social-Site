@@ -4,5 +4,5 @@
 
 
 jQuery ->
-  $('#user_category_name').autocomplete
-    source: $('#user_category_name').data('autocomplete-source')
+  $('#search').autocomplete
+    source: $('#search').data('autocomplete-source')

@@ -1,78 +1,55 @@
+
 <div class="containert text-center">
-	<div class="col-md-12">
-		<div class="col-md-3">
-			<% if user_signed_in? %>
-				<h4><%= link_to('Posts', posts_path) %></h4>        
-			<% end %>
-		</div>
+		<div class="col-md-12 info">
+			<div class="col-md-8 text-left">
+				 <h4>User Basic information</h4>
+				<div class="col-md-8 offset-4">
+					<p class="col-md-6 text-left">Pic:</p>
+					<p class="col-md-6 text-left"><%#= image_tag @user.image_url.to_s if @user.image_url.present? %></p>
+				</div>
+					
+				<div class="col-md-8 offset-4">
+					<p class="col-md-6 text-left">Firstname:</p>
+					<p class="col-md-6 text-left"><%= @user.firstname %></p>
+				</div>
+			
+				<div class="col-md-8 offset-4">
+					<p class="col-md-6 text-left">Lastname:</p>
+					<p class="col-md-6 text-left"><%= @user.lastname %></p>
+				</div>
 
-		<div class="col-md-3">
-			<% if user_signed_in? %>
-				<h4><%= link_to('Profile', profile_path(current_user.id)) %></h4>  
-			<% end %>
-		</div>
+				<div class="col-md-8 offset-4">
+							<p class="col-md-6 text-left">Country:</p>
+							<p class="col-md-6 text-left"><%= @user.country %></p>
+				</div>
 
-		<div class="col-md-3">
-			<h4>Bookmarks</h4>
-		</div>
+				<div class="col-md-8 offset-4">
+							<p class="col-md-6 text-left">language:</p>
+							<p class="col-md-6 text-left"><%= @user.language %></p>
+				</div>
 
-		<div class="col-md-3">
-			<% if user_signed_in? %>
-				<h4><%= link_to('Logout', destroy_user_session_path, method: :delete) %></h4>        
-			<% end %>
-		</div>
-	</div>
-	
-	<div class="col-md-12 info">
-		<div class="col-md-8">
-			 <h4>User Basic information</h4>
-			<div class="col-md-8 offset-4">
-				<p class="col-md-6 text-left">Pic:</p>
-				<p class="col-md-6 text-left"><%#= image_tag @user.image_url.to_s if @user.image_url.present? %></p>
-			</div>
-				
-			<div class="col-md-8 offset-4">
-				<p class="col-md-6 text-left">Firstname:</p>
-				<p class="col-md-6 text-left"><%= @user.firstname %></p>
-			</div>
-		
-			<div class="col-md-8 offset-4">
-				<p class="col-md-6 text-left">Lastname:</p>
-				<p class="col-md-6 text-left"><%= @user.lastname %></p>
-			</div>
+				<div class="col-md-8 offset-4">
+							<p class="col-md-6 text-left">Email:</p>
+							<p class="col-md-6 text-left"><%= @user.email %></p>
+				</div>
 
-			<div class="col-md-8 offset-4">
-						<p class="col-md-6 text-left">Country:</p>
-						<p class="col-md-6 text-left"><%= @user.country %></p>
-			</div>
+				<div class="col-md-8 offset-4">
+							<p class="col-md-6 text-left">Birth date:</p>
+							<p class="col-md-6 text-left"><%#= @user.birth_date %></p>
+				</div>
 
-			<div class="col-md-8 offset-4">
-						<p class="col-md-6 text-left">language:</p>
-						<p class="col-md-6 text-left"><%= @user.language %></p>
+				<div class="col-md-12">
+					<button><%= link_to 'Edit Profile', edit_user_registration_path() %></button>
+				</div>
 			</div>
+			<div class="col-md-4">
+				<h4>Search Friends by email</h4>
+				<%= form_tag users_path, :method => "get" do %>
+				<%= text_field_tag :search, params[:search], data: {autocomplete_source: User.order(:email).map(&:email)} %>
+				  <%= submit_tag "Search" %>
 
-			<div class="col-md-8 offset-4">
-						<p class="col-md-6 text-left">Email:</p>
-						<p class="col-md-6 text-left"><%= @user.email %></p>
-			</div>
-
-			<div class="col-md-8 offset-4">
-						<p class="col-md-6 text-left">Birth date:</p>
-						<p class="col-md-6 text-left"><%#= @user.birth_date %></p>
-			</div>
-
-			<div class="col-md-12">
-				<button><%= link_to 'Edit Profile', edit_user_registration_path() %></button>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<h4>Search Friends by email</h4>
-			  <%= form_for @user do |f| %>
-				  <%= f.label :email %>
-					<%= f.text_field :category_name, data: {autocomplete_source: users_path} %>
 				<% end %>
+			</div>
 		</div>
-	</div>
 </div>
-
 

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 	def index
-	  @users = User.order(:email).where("email like ?", "%#{params[:term]}%")
-	  render json: @users.map(&:email)
+		@user = User.order(:email).search_user(params[:search])
+		@users = User.all
+	end
 end
-end
+	
