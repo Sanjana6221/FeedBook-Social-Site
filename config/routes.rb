@@ -13,8 +13,9 @@ Rails.application.routes.draw do
 
   resources :posts
   resources :profile, only: [:show] 
-
   resources :friendships
-  resources :users  
+  resources :users do
+    get 'search', on: :collection
+  end
 end
 

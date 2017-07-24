@@ -1,12 +1,23 @@
-<h2 class="small_v_space">Waiting your approval</h2>
-<ul>
-  <% for user in @user.inverse_friends %>
-    <% if user.friends.exists?(@user) and not @user.friends.exists?(user) %>
-      <li>
-        <%=h user.name %>
-          (<%= link_to "Accept", friendships_path(:friend_id => user), :method => :post %>,
-           <%= link_to "Ignore", friendship_path(:id => friendship_id, :friend_id => user.id), :method => :delete  %>)
-      </li
-    <% end %>
-  <% end %>
-</ul>
+
+<div class="col-md-9">				 
+<h2>Your Friends</h2>
+<% if current_user.all_friends.each do |friend| %>
+	<% friendship = current_user.get_mutual_friendship_with(friend) %>
+	<% friendship = current_user.get_mutual_friendship_with(friend) %>
+		<% if friendship.accepted? %>
+			<li><%= friend.email %>
+			<button><%= link_to "Unfriend", friendship_path(friendship), :method => :delete %></button></li>
+		<% end %>
+<% end %>
+<% end %>
+<%= link_to 'View Requests', friendship_path(current_user) %>
+</div>
+
+
+<div class="col-md-3">
+	<h4>Search Friends by email</h4>
+				<%= form_tag search_users_path, :method => "get" do %>
+				<%= text_field_tag :search, params[:search], data: {autocomplete_source: User.order(:email).map(&:email)} %>
+				  <%= submit_tag "Search" %>
+				 <% end %>
+</div>
