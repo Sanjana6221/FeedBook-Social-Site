@@ -2,15 +2,15 @@ class PostsController < ApplicationController
 	
 	def index
 		@post = Post.new
-		@posts = Post.all
+		@posts = Post.where(:user_id => current_user.all_friends)
+		@friends_posts = @posts.where.not(posts: {privacy_type: "me" }).order(created_at: :desc)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
     end
-    Post.order(updated_at:"DESC")
-	end
+  end
 	
-  def create
+	def create
   	@post = current_user.posts.new post_params
    		if @post.save
       	flash[:notice] = "You have successfully created."
@@ -21,11 +21,6 @@ class PostsController < ApplicationController
       end
 	end
 
-		def show
-			@user = User.find(params[:id])
-			Post.order(created_at:"DESC")
-	  end
-	
 	def destroy
 		@post = Post.find(params[:id])
 		@post.destroy

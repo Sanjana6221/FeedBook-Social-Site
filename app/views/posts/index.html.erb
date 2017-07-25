@@ -1,41 +1,16 @@
 <div class="container">
-	<div class="col-md-12">
-		<div class="col-md-3">
-			<% if user_signed_in? %>
-				<h4><%= link_to('Posts', posts_path) %></h4>        
-			<% end %>
-		</div>
-
-		<div class="col-md-3">
-			<% if user_signed_in? %>
-				<h4><%= link_to('Profile', profile_path(current_user.id)) %></h4>        
-			<% end %>
-		</div>
-
-		<div class="col-md-3">
-			<h4>Bookmarks</h4>
-		</div>
-
-		<div class="col-md-3">
-			<% if user_signed_in? %>
-				<h4><%= link_to('Logout', destroy_user_session_path, method: :delete) %></h4>        
-			<% end %>
-		</div>
-	</div>
-
 	<div class="col-md-12 text-center">
-		<h3>Welcome <%= current_user.firstname.capitalize%></h3>
+		<h3>Welcome <%= current_user.firstname.capitalize 	%></h3>
 	</div>
 
-	<div class="col-md-12 post-content">
+	<div class="col-md-12">
 		<div class="col-md-6">
-			 <h4><%= link_to 'Add Post', posts_path%></h4>
+			<h4><%= link_to 'Add Post', posts_path%></h4>
 			  <%= render 'form' %>
 		</div>
 		<div class="col-md-6">
-			<% @posts.each do |post| %>
+			<% @friends_posts.each do |post| %>
 				<div class="content">
-
 					<p>
 						<%= post.content %>
 					</p>
@@ -48,10 +23,11 @@
 					</p>
 
 					<p>
+					<% if current_user.id == post.user_id%>
 						<%= link_to 'Destroy', post_path(post),
 			            data: {:confirm => 'Are you sure?'}, :method => :delete %>
 			      <%= link_to 'Edit',edit_post_path(post), remote:true%>
-			      
+			    <% end %>
 			    </p>
 				</div>
 			<% end %>
