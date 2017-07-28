@@ -2,6 +2,13 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_many :posts,dependent: :destroy
+  has_one :picture, as: :imageable
+  
+  has_many :bookmarks
+  has_many :bookmarked_posts, through: :bookmarks, source: :post
+
+
+  mount_uploader :image, ImageUploader
   has_many :friendships
 
   has_many :pending_friends, -> {where(friendships: {status: "pending"})},
@@ -29,7 +36,7 @@ class User < ApplicationRecord
 
   serialize :language
 
-  ALLOWED_LANGUAGES = ["Hindi", "English", "Other"]
+  enum languages:  [:Hindi, :English, :Other]
 
   def self.search_user(search)
     if search.present?

@@ -16,7 +16,7 @@
           <%= link_to('Profile', profile_path(current_user.id)) %>
         </li>
         
-        <li><a href="#">Bookmarks</a></li>
+        <li><%= link_to('Bookmarks',bookmark_index_path)%></li>
 
         <li><%= link_to('All friends', friendships_path ) %></li>
        

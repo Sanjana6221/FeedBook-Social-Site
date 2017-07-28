@@ -2,11 +2,17 @@ class PostsController < ApplicationController
 	
 	def index
 		@post = Post.new
-		@posts = Post.where(:user_id => current_user.all_friends)
-		@friends_posts = @posts.where.not(posts: {privacy_type: "me" }).order(created_at: :desc)
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @users }
+		
+		@friends_posts = Post.where(:user_id => current_user.all_friends) 
+
+		@all_posts = @friends_posts.where(posts: {privacy_type: "friends" }) + current_user.posts + Post.all.where(posts: {privacy_type: "public"})
+
+		@posts = @all_posts.sort_by(&:updated_at).paginate(:page => params[:page], :per_page => 5)
+		
+		respond_to do |format|
+      format.html 
+      # format.json { render json: @posts}
+      format.js 
     end
   end
 	

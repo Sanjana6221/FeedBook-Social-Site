@@ -9,28 +9,36 @@
 			  <%= render 'form' %>
 		</div>
 		<div class="col-md-6">
-			<% @friends_posts.each do |post| %>
-				<div class="content">
+			<% @posts.each do |post| %>
+				<div id="my-posts">
+					<p><%= post.content %></p>
+					<p class="img"><%= image_tag post.image %></p>
 					<p>
-						<%= post.content %>
+						Privacy: <%= post.privacy_type %>
+						<small><em><%= post.timestamp %></em></small>
 					</p>
-					<div class="img">
-						<%= image_tag post.image %>
-					</div>
-
 					<p>
-						<%= post.privacy_type %>
-					</p>
-
-					<p>
-					<% if current_user.id == post.user_id%>
-						<%= link_to 'Destroy', post_path(post),
-			            data: {:confirm => 'Are you sure?'}, :method => :delete %>
-			      <%= link_to 'Edit',edit_post_path(post), remote:true%>
-			    <% end %>
+						<% if current_user.id == post.user_id%>
+							<%= link_to 'Destroy', post_path(post),
+				            data: {:confirm => 'Are you sure?'}, :method => :delete %>
+				      <%= link_to 'Edit',edit_post_path(post), remote:true%>
+						<% end %>
 			    </p>
+			    <p>
+				   	<% if post.bookmarks.exists?%>
+				   		<%= link_to "remove",bookmark_path(post.id), :method => :delete %>
+				   	<% else %>
+				   		<%= link_to "save",bookmark_index_path(:post_id => post.id), :method => :post %>
+				   	<% end %>
+			   	</p>
 				</div>
 			<% end %>
+		
+			<div id="infinite-scrolling">
+					
+			  <%= will_paginate @posts %>
+			</div>
 		</div>
 	</div>
 </div>
+

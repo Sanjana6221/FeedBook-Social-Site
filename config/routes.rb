@@ -11,11 +11,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :posts
+  resources :posts 
+  resources :bookmark,only: [:index,:create,:destroy]
   resources :profile, only: [:show] 
   resources :friendships
   resources :users do
     get 'search', on: :collection
   end
+
 end
 
