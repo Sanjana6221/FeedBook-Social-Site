@@ -13,7 +13,7 @@ class PostsController < ApplicationController
       format.html 
       # format.json { render json: @posts}
       format.js 
-    end
+  	end
   end
 	
 	def create
@@ -54,3 +54,4 @@ class PostsController < ApplicationController
 		 	params.require(:post).permit(:content, :image,:privacy_type)
 	  end
 end
+	

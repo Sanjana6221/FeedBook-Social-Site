@@ -1,0 +1,11 @@
+<% @posts.each do |post| %>
+	<div>
+	  <p><%= post.content %></p>
+
+	  <p class="img"><%= image_tag post.image %></p>
+
+	  <p>Privacy: <%= post.privacy_type %>
+			<small><em><%= post.timestamp %></em></small>
+		</p>
+	</div>
+<% end %> 
