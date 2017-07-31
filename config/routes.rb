@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
 
   devise_scope :user do
     authenticated :user do
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
   resources :users do
     get 'search', on: :collection
   end
+
 
 end
 
