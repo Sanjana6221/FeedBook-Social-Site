@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170728125657) do
+ActiveRecord::Schema.define(version: 20170803134452) do
 
   create_table "bookmarks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
@@ -38,6 +38,28 @@ ActiveRecord::Schema.define(version: 20170728125657) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "from_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "identities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.string "provider"
+    t.string "accesstoken"
+    t.string "refreshtoken"
+    t.string "uid"
+    t.string "name"
+    t.string "email"
+    t.string "nickname"
+    t.string "image"
+    t.string "phone"
+    t.string "urls"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
   create_table "pictures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "image"
     t.string "imageable_type"
@@ -52,6 +74,20 @@ ActiveRecord::Schema.define(version: 20170728125657) do
     t.string "image"
     t.string "privacy_type"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "social_providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "pid"
+    t.string "token"
+    t.string "refresh_token"
+    t.string "secret"
+    t.datetime "expires_at"
+    t.string "provider_type"
+    t.integer "user_id"
+    t.string "url"
+    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -85,4 +121,5 @@ ActiveRecord::Schema.define(version: 20170728125657) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "identities", "users"
 end

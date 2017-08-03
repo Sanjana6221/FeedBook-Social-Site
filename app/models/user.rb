@@ -6,8 +6,7 @@ class User < ApplicationRecord
   
   has_many :bookmarks
   has_many :bookmarked_posts, through: :bookmarks, source: :post
-
-
+  
   mount_uploader :image, ImageUploader
   has_many :friendships
 
@@ -32,12 +31,11 @@ class User < ApplicationRecord
 	has_many :inverse_friends, :through => :inverse_friendships, :source => :user
  
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,:confirmable,:omniauthable, :omniauth_providers => [:facebook]
+         :recoverable, :rememberable, :validatable,:confirmable,:omniauthable, :omniauth_providers => [:facebook,:twitter,:google_oauth2]
 
   serialize :language
 
-  enum languages:  [:Hindi, :English, :Other]
-
+  ALLOWED_LANGUAGES = ["Hindi", "English", "Other"]
   def self.search_user(search)
     if search.present?
       @user = User.find_by(email: search)
@@ -70,6 +68,7 @@ class User < ApplicationRecord
   end
 
   def self.from_omniauth(auth)
+    data = auth.info
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0,20]
@@ -81,11 +80,16 @@ class User < ApplicationRecord
     end
   end
 
-   def self.new_with_session(params, session)
-    super.tap do |user|
-      if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
-        user.email = data["email"] if user.email.blank?
-      end
+  def self.for_twitter_omniauth(auth)
+    data = auth.info
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.emails = auth.uid.to_s+"@twitter.com"
+      user.password = Devise.friendly_token[0,20]
+      user.firstname = auth.info.nickname   # assuming the user model has a name
+      user.image = auth.info.image # assuming the user model has an image
+      # If you are using confirmable and the provider(s) you use validate emails, 
+      # uncomment the line below to skip the confirmation emails.
+      user.skip_confirmation!
     end
   end
 end

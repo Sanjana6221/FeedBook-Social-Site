@@ -290,5 +290,10 @@ Devise.setup do |config|
 
   #Add your ID and secret here
   #ID first, secret second
-  config.omniauth :facebook, "326459154473416", "270e9aba5e557e2f90fa4d481b2309f4", scope: 'email', info_fields: 'email, name'
+  config.omniauth :facebook, "1402642593124595", "0119d00c903f166402c949b677041f6a", scope: 'email', info_fields: 'email, name'
+
+  config.omniauth :twitter, "VAsWIEvXq3bPDnnCfZnS9mrQg", "LUbkp7IoX6nku9Qf9htD2kOJ6l0tV9Da2EFYTduGcJzoAJv47T", scope: 'email', info_fields: 'email'
+
+  config.omniauth :google_oauth2, "684383346085-7fhmk560ss4ec6dcqttj37bdvoah421j.apps.googleusercontent.com", "KGGIJ8ioflUa01j_LIt0J9eU", scope: 'email'
+
 end
