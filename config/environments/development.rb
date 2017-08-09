@@ -61,7 +61,6 @@ Rails.application.configure do
     :enable_starttls_auto => true,
     address:              'smtp.gmail.com',
     port:                 587,
-    # :tls                  => true,
     domain:               'gmail.com',  
     authentication:       'plain',
     user_name:            'sanjana@gemsessence.com',

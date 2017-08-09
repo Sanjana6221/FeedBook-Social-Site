@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable,:confirmable,:omniauthable, :omniauth_providers => [:facebook,:twitter,:google_oauth2]
+
   has_many :posts,dependent: :destroy
   has_one :picture, as: :imageable
   
@@ -13,8 +16,7 @@ class User < ApplicationRecord
   has_many :pending_friends, -> {where(friendships: {status: "pending"})},
             :through => :friendships,
             :source => :friend
-
-
+  
   has_many :friends, -> { where(friendships: {status: "accepted"}) }, 
             through: :friendships
 
@@ -28,10 +30,8 @@ class User < ApplicationRecord
 
   has_many :inverse_friendships, :class_name => "Friendship",
            :foreign_key => "friend_id"
-	has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
  
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,:confirmable,:omniauthable, :omniauth_providers => [:facebook,:twitter,:google_oauth2]
 
   serialize :language
 
@@ -73,7 +73,11 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.password = Devise.friendly_token[0,20]
       user.firstname = auth.info.name   # assuming the user model has a name
-      user.image = auth.info.image # assuming the user model has an image
+      user.image = auth.info.image
+      # user.oauth_token = auth.credentials.token
+      user.oauth_expires_at = Time.at(auth.credentials.expires_at) 
+      user.save! 
+       # assuming the user model has an image
       # If you are using confirmable and the provider(s) you use validate emails, 
       # uncomment the line below to skip the confirmation emails.
       user.skip_confirmation!
@@ -92,4 +96,11 @@ class User < ApplicationRecord
       user.skip_confirmation!
     end
   end
+
+  # def self.koala(auth)
+  #   access_token = auth['token']
+  #   @graph = Koala::Facebook::API.new(access_token)
+  #   profile = @graph.get_object("me")
+  #   friends = @graph.get_connections("me", "friends") 
+  # end
 end

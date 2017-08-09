@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   resources :posts 
   resources :bookmark,only: [:index,:create,:destroy]
   resources :profile, only: [:show] 
-  resources :friendships
+  resources :friendships,only: [:index,:show] do
+    post 'fb_friends', :on => :collection
+  end
   resources :users do
     get 'search', on: :collection
   end

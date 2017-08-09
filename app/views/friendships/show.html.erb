@@ -1,25 +1,25 @@
 <%#= send request by me%>
-
 <h2>Sent Friend Requests</h2>
-<ul>
+<table>
   <% current_user.friendships.pending.each do |friendship| %>
-     <li>
-      <%=h friendship.friend.email %>
-      
-      <button><%= link_to "Cancel sent Request", friendship, :method => :delete %></button>
-    </li>
+    <tr>
+      <td><%=h friendship.friend.email %></td>
+      <td><%= link_to "Cancel sent Request", friendship, :method => :delete, :class => "btn btn-primary btn-sm" %></td>
+    </tr>
   <% end %>
-</ul>
+</table>
 <p><%= link_to "Find Friends", users_path %></p>
 
 
 
 
 <h2>View Friend requests</h2>
-<ul>
+<table>
   <% current_user.inverse_friendships.pending.each do |friendship| %>
-    <li><%=h friendship.user.email %>
-     <button><%= link_to "Accept", friendship_path(friendship, status: 'accept'), method:"put" %></button>
-     <button><%= link_to "Ignore", friendship_path(friendship, status: 'ignore'), method:"put"%></button></li>
+    <tr>
+      <td><%=h friendship.user.email %></td>
+      <td><%= link_to "Accept", friendship_path(friendship, status: 'accept'), method:"put", :class => "btn btn-primary btn-sm"  %></td>
+      <td><%= link_to "Ignore", friendship_path(friendship, status: 'ignore'), method:"put", :class => "btn btn-primary btn-sm"  %></td>
+    </tr>
   <% end %>
-</ul>
+</table>

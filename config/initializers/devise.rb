@@ -287,7 +287,8 @@ Devise.setup do |config|
 
   #Add your ID and secret here
   #ID first, secret second
-  config.omniauth :facebook, "1402642593124595", "0119d00c903f166402c949b677041f6a", scope: 'email', info_fields: 'email, name'
+  config.omniauth :facebook, "807624659398343", "51694ea505ec7939e3473475091482f8", scope: 'email, read_custom_friendlists', info_fields: 'email, name'
+
 
   config.omniauth :twitter, "VAsWIEvXq3bPDnnCfZnS9mrQg", "LUbkp7IoX6nku9Qf9htD2kOJ6l0tV9Da2EFYTduGcJzoAJv47T", scope: 'email', info_fields: 'email'
 

@@ -1,0 +1,35 @@
+<div class="col-md-12" id="add_email">
+<h3>Add Email</h3>
+<%= form_for(current_user resource, as: :user, url: user_twitter_omniauth_callback_path	(current_user)) do |f| %>
+	<% if @show_errors && current_user.errors.any? %>
+    <div id="error_explanation">
+      <% current_user.errors.full_messages.each do |msg| %>
+        <%= msg %><br>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :firstname %>
+    <div class="controls">
+      <%= f.text_field :firstname, :autofocus => true, :value => '', class: 'form-control', placeholder: 'Username' %>
+      <p class="help-block">Please enter your username</p>
+    </div>
+  </div>
+
+
+ 		<div class="form-group">
+      <%= f.label :email %>
+      <div class="controls">
+        <%= f.text_field :email, :autofocus => true, :value => '', class: 'form-control', placeholder: 'Example: email@gmail.com' %>
+        <p class="help-block">Please confirm your email address. No spam.</p>
+      </div>
+    </div>  
+
+    <div class="actions">
+      <%= f.submit 'Continue', :class => 'btn btn-primary' %>
+    </div>
+<% end %>
+</div>
+
+

@@ -1,23 +1,54 @@
+<div class="col-md-12">
+	<div class="col-md-5"><h2>Facebook Friends</h2>
+	<div id="fbFriends">
 
-<div class="col-md-9">				 
-<h2>Your Friends</h2>
-<% if current_user.all_friends.each do |friend| %>
-	<% friendship = current_user.get_mutual_friendship_with(friend) %>
-	<% friendship = current_user.get_mutual_friendship_with(friend) %>
-		<% if friendship.accepted? %>
-			<li><%= friend.email %>
-			<button><%= link_to "Unfriend", friendship_path(friendship), :method => :delete %></button></li>
+		<% unless @user_fb_token.blank?%>
+			<% unless @fb_friends.blank? %>
+				<% @fb_friends.each do |fb_friend| %>
+					<div class='float-left fb-avatar-section'>
+						<%= image_tag "http://graph.facebook.com/#{fb_friend.identifier}/picture", :class => 'float-left' %>
+						<div class='float-left fb-avatar-desc'>
+							<div class='float-left full-width fb-avatar-name' id="fb_name_<%= fb_friend.identifier%>">
+								<%= fb_friend.raw_attributes['name'] %>
+							</div>
+						</div>
+					</div>
+				<% end %>
+			<% else %>
+				<h3>You do not have any fb friends to invite</h3>
+			<% end %>
+			<% else %>
+				<%= link_to('Connect to facebook',  user_facebook_omniauth_authorize_path('facebook'), :class => 'display-block ') %>
+			<% end %>
+	</div>
+	</div>
+
+	<div class="col-md-4">				 
+		<h2>Your Friends</h2>
+		<% if current_user.all_friends.each do |friend| %>
+			<% friendship = current_user.get_mutual_friendship_with(friend) %>
+			<% friendship = current_user.get_mutual_friendship_with(friend) %>
+				<% if friendship.accepted? %>
+					<table>
+						<tr>
+							<td><%= friend.email %></td>
+							<td><%= link_to "Unfriend", friendship_path(friendship), :method => :delete,:class => "btn btn-primary btn-sm" %></td>
+						</tr>
+					</table>
+				<% end %>
 		<% end %>
-<% end %>
-<% end %>
-<%= link_to 'View Requests', friendship_path(current_user) %>
+		<% end %>
+		<%= link_to 'View Requests', friendship_path(current_user) %>
+	</div>
+	
+	<div class="col-md-3">
+		<h4>Search Friends by email</h4>
+		<%= form_tag search_users_path, :method => "get" do %>
+			<%= text_field_tag :search, params[:search], data: {autocomplete_source: User.order(:email).map(&:email)} %>
+			<%= submit_tag "Search" %>
+		<% end %>
+	</div>
 </div>
 
 
-<div class="col-md-3">
-	<h4>Search Friends by email</h4>
-				<%= form_tag search_users_path, :method => "get" do %>
-				<%= text_field_tag :search, params[:search], data: {autocomplete_source: User.order(:email).map(&:email)} %>
-				  <%= submit_tag "Search" %>
-				 <% end %>
-</div>
+
