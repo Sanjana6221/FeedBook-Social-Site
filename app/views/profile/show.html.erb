@@ -1,7 +1,6 @@
-
 <div class="containert text-center">
 		<div class="col-md-12 info">
-			<div class="col-md-8 text-left">
+			<div class="col-md-6 text-left">
 				 <h4>User Basic information</h4>
 				<div class="col-md-8 offset-4">
 					<p class="col-md-6 text-left">Pic:</p>
@@ -39,15 +38,34 @@
 				</div>
 
 				<div class="col-md-12">
-					<button><%= link_to 'Edit Profile', edit_user_registration_path() %></button>
+					<%= link_to 'Edit Profile', edit_user_registration_path(), :class => "btn btn-primary btn-sm" %>
 				</div>
 			</div>
-			<div class="col-md-4">
-				<h4>Search Friends by email</h4>
-				<%= form_tag users_path, :method => "get" do %>
-				<%= text_field_tag :search, params[:search], data: {autocomplete_source: User.order(:email).map(&:email)} %>
-				  <%= submit_tag "Search" %>
 
+			<div class="col-md-6 text-left">
+				<% @posts.each do |post| %>
+					<div class="my-posts">
+						<p><%= post.content %></p>
+						<p class="img"><%= image_tag post.image %></p>
+						<p>
+							Privacy: <%= post.privacy_type %>
+							<small><em><%= post.timestamp %></em></small>
+						</p>
+						<p>
+							<% if current_user.id == post.user_id%>
+								<%= link_to 'Destroy', post_path(post),
+					            data: {:confirm => 'Are you sure?'}, :method => :delete %>
+					      <%= link_to 'Edit',edit_post_path(post), remote:true%>
+							<% end %>
+				    </p>
+				    <p>
+					   	<% if post.bookmarks.exists?%>
+					   		<%= link_to "remove",bookmark_path(post.id), :method => :delete %>
+					   	<% else %>
+					   		<%= link_to "save",bookmark_index_path(:post_id => post.id), :method => :post %>
+					   	<% end %>
+				   	</p>
+					</div>
 				<% end %>
 			</div>
 		</div>

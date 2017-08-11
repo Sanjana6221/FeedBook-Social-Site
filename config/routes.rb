@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   
   devise_scope :user do
@@ -15,7 +17,7 @@ Rails.application.routes.draw do
   resources :posts 
   resources :bookmark,only: [:index,:create,:destroy]
   resources :profile, only: [:show] 
-  resources :friendships,only: [:index,:show] do
+  resources :friendships  do
     post 'fb_friends', :on => :collection
   end
   resources :users do
