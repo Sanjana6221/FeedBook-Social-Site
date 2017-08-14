@@ -37,7 +37,6 @@ gem 'devise'
 #added country_select
 gem 'country_select' 
 gem 'jquery-rails'
-
 gem "jquery-ui-rails"
 gem 'will_paginate'
 gem 'bootstrap-sass', '~> 3.0.3.0'
@@ -46,7 +45,7 @@ gem 'therubyracer'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
-gem "koala"
+gem "koala", "~> 1.10.0rc"
 gem 'activeadmin'
 
 group :development, :test do

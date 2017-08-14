@@ -132,7 +132,6 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (2.1.0)
     jwt (1.5.6)
     kaminari (1.0.1)
       activesupport (>= 4.1.0)
@@ -146,10 +145,10 @@ GEM
       activerecord
       kaminari-core (= 1.0.1)
     kaminari-core (1.0.1)
-    koala (3.0.0)
+    koala (1.10.1)
       addressable
       faraday
-      json (>= 1.8)
+      multi_json
     less (2.6.0)
       commonjs (~> 0.2.7)
     less-rails (2.8.0)
@@ -343,7 +342,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   jquery-ui-rails
-  koala
+  koala (~> 1.10.0rc)
   listen (>= 3.0.5, < 3.2)
   mini_magick
   multi-select-rails
