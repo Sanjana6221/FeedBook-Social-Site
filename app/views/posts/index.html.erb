@@ -21,7 +21,7 @@
 						<% if current_user.id == post.user_id%>
 							<%= link_to 'Destroy', post_path(post),
 				            data: {:confirm => 'Are you sure?'}, :method => :delete %>
-				      <%= link_to 'Edit',edit_post_path(post), remote:true%>
+				      <%#= link_to 'Edit',edit_post_path(post), remote:true%>
 						<% end %>
 			    </p>
 			    <p>
@@ -36,7 +36,7 @@
 		
 			<div id="infinite-scrolling">
 					
-			  <%= will_paginate @posts %>
+			  <%#= will_paginate @posts %>
 			</div>
 		</div>
 	</div>

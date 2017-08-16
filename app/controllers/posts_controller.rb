@@ -1,14 +1,10 @@
 class PostsController < ApplicationController
-	
+	before_action :set_post, only: [:edit, :update, :destroy]
 	def index
 		@post = Post.new
-		
-		@friends_posts = Post.where(:user_id => current_user.all_friends) 
-
-		@all_posts = @friends_posts.where(posts: {privacy_type: "friends" }) + current_user.posts + Post.all.where(posts: {privacy_type: "public"})
-
+		@friends_posts = Post.user_all_friends_post(current_user) 
+		@all_posts = @friends_posts.friends_posts + current_user.posts + Post.all.all_posts
 		@posts = @all_posts.sort_by(&:updated_at).paginate(:page => params[:page], :per_page => 5)
-		
 		respond_to do |format|
       format.html 
       # format.json { render json: @posts}
@@ -28,20 +24,17 @@ class PostsController < ApplicationController
 	end
 
 	def destroy
-		@post = Post.find(params[:id])
 		@post.destroy
 		redirect_to posts_path
 	end
 
 	def edit
-		@post = Post.find(params[:id])
 		respond_to do |format|
    		format.js
 		end
 	end
 
 	def update
-		@post = Post.find(params[:id])
 		if @post.update(post_params)
 			redirect_to @post
 		else
@@ -53,5 +46,11 @@ class PostsController < ApplicationController
 		def post_params
 		 	params.require(:post).permit(:content, :image,:privacy_type)
 	  end
+
+	  def set_post
+      @post = Post.find(params[:id])
+    end
 end
+	
+
 	
