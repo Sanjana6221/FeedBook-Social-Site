@@ -1,25 +1,36 @@
-<%#= send request by me%>
 <h2>Sent Friend Requests</h2>
 <table>
   <% current_user.friendships.pending.each do |friendship| %>
     <tr>
-      <td><%=h friendship.friend.email %></td>
-      <td><%= link_to "Cancel sent Request", friendship, :method => :delete, :class => "btn btn-primary btn-sm" %></td>
+      <% if friendship.friend.present? %>
+        <td><%=h friendship.friend.email %></td>
+        <td><%= link_to "Cancel sent Request", friendship, :method => :delete, :class => "btn btn-primary btn-sm space" %></td>
+      <% else %>
+        <td><b>Deleted user</b></td>
+        <td><%= link_to "Cancel sent Request space", "#", :class => "btn btn-primary btn-sm" %>
+          <% flash[:notice] = "User Not available" %>
+        </td>
+      <% end %>
     </tr>
   <% end %>
 </table>
 <p><%= link_to "Find Friends", users_path %></p>
 
-
-
-
 <h2>View Friend requests</h2>
 <table>
   <% current_user.inverse_friendships.pending.each do |friendship| %>
     <tr>
-      <td><%=h friendship.user.email %></td>
-      <td><%= link_to "Accept", friendship_path(friendship, status: 'accept'), method:"put", :class => "btn btn-primary btn-sm"  %></td>
-      <td><%= link_to "Ignore", friendship_path(friendship, status: 'ignore'), method:"put", :class => "btn btn-primary btn-sm"  %></td>
+      <% if friendship.user.present? %>
+        <td><%=h friendship.user.email %></td>
+        <td>
+          <%= link_to "Accept", friendship_path(friendship, status: 'accept'), method:"put", :class => "btn btn-primary btn-sm space" %>
+          <%= link_to "Ignore", friendship_path(friendship, status: 'ignore'), method:"put", :class => "btn btn-primary btn-sm space" %>
+        </td>
+      <% else %>
+        <td><b>Deleted user</b></td>
+      <% end %>
     </tr>
   <% end %>
 </table>
+
+
