@@ -1,5 +1,4 @@
-  class FriendshipsController < ApplicationController
-  # before_action :set_friendship, except: [:index, :create]
+class FriendshipsController < ApplicationController
   before_action :set_friendship, only: [:update,:destroy]
   
   def index
@@ -10,10 +9,10 @@
   def create
     @friendship = current_user.friendships.build(:friend_id => params[:friend_id])
     if @friendship.save
-      flash[:notice] = "Added friend."
+      flash[:notice] = t('friendship.create')
       redirect_to friendships_path
     else
-      flash[:notice] = "Unable to add friend."
+      flash[:notice] = t('friendship.create_error')
       redirect_to friendships_path
     end
   end
@@ -22,10 +21,10 @@
   def update
     if params[:status] == 'accept'
       @friendship.accepted!      
-      flash[:notice] = "friend requested accepted #{@friendship.user.email}"
+      flash[:notice] = t('friendship.accept')
     elsif params[:status] == 'ignore'
       @friendship.rejected!
-      flash[:notice] = "The friend request was successfully rejected."
+      flash[:notice] = t('friendship.ignore')
     end
       redirect_to friendships_path
   end
@@ -33,7 +32,7 @@
   def destroy
     @friendship = current_user.friendships.find(params[:id])
     @friendship.destroy
-    flash[:notice] = "Removed friendship."
+    flash[:notice] =  t('friendship.remove')
     redirect_to friendships_path
   end
 

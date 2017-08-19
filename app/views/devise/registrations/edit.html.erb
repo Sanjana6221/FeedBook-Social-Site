@@ -29,8 +29,8 @@
   </div>
  
   <div class="field">
-    <%= f.label :Birth_date %><br />
-    <%= select_date Date.today, prefix: :start_date, autofocus: true %>
+    <%= f.label :date_of_birth %><br />
+    <%= f.date_select :date_of_birth,end_year: 1950, start_year: (Time.now.year), autofocus: true %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>

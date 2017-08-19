@@ -1,4 +1,4 @@
-# Files in the config/locales directory are used for internationalization
+  # Files in the config/locales directory are used for internationalization
 # and are automatically loaded by Rails. If you want to use locales other
 # than English, add the necessary files in this directory.
 #
@@ -29,5 +29,26 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
+# en:
+#   hello: "Hello world"
 en:
-  hello: "Hello world"
+  bookmark:
+    remove: "Removed from bookmark."
+    save: "Saved bookmark."
+    not_save: "Unable to save."
+  friendship:
+    create: "Added friend"
+    create_error: "Unable to add friend."
+    accept: "friend requested accepted."
+    ignore: "The friend request was successfully rejected."
+    remove: "Removed friendship."
+  post:
+    create: "You have successfully created."
+    create_error: "Post not created."
+    delete: "Post removed from your profile"
+    
+
+
+
+
+   

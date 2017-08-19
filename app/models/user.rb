@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :posts,dependent: :destroy
   has_one :picture, as: :imageable
   
-  has_many :bookmarks
+  has_many :bookmarks#, through: :posts
   has_many :bookmarked_posts, through: :bookmarks, source: :post
   
   mount_uploader :image, ImageUploader
@@ -31,7 +31,8 @@ class User < ApplicationRecord
   has_many :inverse_friendships, :class_name => "Friendship",
            :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
- 
+  
+  has_one :facebook_oauth_setting
 
   serialize :language
 
@@ -46,17 +47,6 @@ class User < ApplicationRecord
     friendships.exists?(friend_id: user.id) || inverse_friendships.exists?(user_id: user.id)
   end 
 
-  def sent_request_to?(user)
-    potential_friend = User.find(params[:friend_id])
-    friend_request = potential_friend.friendships.find(params[:id])
-
-    friendship = current_user.friendships.find_by_friend_id(potential_friend.id)
-    if friendship.nil?      #Users are not friends and you want to delete the friend request
-      friend_request.destroy
-      flash[:notice] = "Removed friend request."
-    end
-  end
-
   def get_mutual_friendship_with(user)
     mutual_friendship = friendships.where(friend_id: user.id).first
     mutual_friendship ||= inverse_friendships.where(user_id: user.id).first
@@ -70,16 +60,19 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     data = auth.info
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
+      user.provider = auth.provider
       user.password = Devise.friendly_token[0,20]
-      user.firstname = auth.info.name   # assuming the user model has a name
+      user.firstname = auth.info.name  
       user.image = auth.info.image
-      # user.oauth_token = auth.credentials.token
-      user.oauth_expires_at = Time.at(auth.credentials.expires_at) 
-      user.save! 
-       # assuming the user model has an image
-      # If you are using confirmable and the provider(s) you use validate emails, 
-      # uncomment the line below to skip the confirmation emails.
+      user.oauth_token = auth.credentials.token
+      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+        if auth.info.try(:email)
+          user.email = auth.info.email
+          user.save
+        else
+          user.email = auth.uid.to_s+"@facebook.com"
+          user.save
+        end
       user.skip_confirmation!
     end
   end
@@ -89,18 +82,10 @@ class User < ApplicationRecord
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.emails = auth.uid.to_s+"@twitter.com"
       user.password = Devise.friendly_token[0,20]
-      user.firstname = auth.info.nickname   # assuming the user model has a name
-      user.image = auth.info.image # assuming the user model has an image
-      # If you are using confirmable and the provider(s) you use validate emails, 
-      # uncomment the line below to skip the confirmation emails.
+      user.firstname = auth.info.nickname   
+      user.image = auth.info.image 
       user.skip_confirmation!
     end
   end
-
-  # def self.koala(auth)
-  #   access_token = auth['token']
-  #   @graph = Koala::Facebook::API.new(access_token)
-  #   profile = @graph.get_object("me")
-  #   friends = @graph.get_connections("me", "friends") 
-  # end
 end
+      

@@ -1,8 +1,7 @@
 class Post < ApplicationRecord 
-	
 	belongs_to :user
 	has_many :pictures, as: :imageable
-	has_many :bookmarks
+	has_many :bookmarks, dependent: :destroy
 	validate :content_or_image	
 	enum privacy_type: {"All": "public", "friends": "friends", "me": "me"}
 	mount_uploader :image, ImageUploader

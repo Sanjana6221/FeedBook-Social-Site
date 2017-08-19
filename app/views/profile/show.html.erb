@@ -3,11 +3,6 @@
 			<div class="col-md-6 text-left">
 				 <h4>User Basic information</h4>
 				<div class="col-md-8 offset-4">
-					<p class="col-md-6 text-left">Pic:</p>
-					<p class="col-md-6 text-left"><%#= image_tag @user.image_url.to_s if @user.image_url.present? %></p>
-				</div>
-					
-				<div class="col-md-8 offset-4">
 					<p class="col-md-6 text-left">Firstname:</p>
 					<p class="col-md-6 text-left"><%= @user.firstname %></p>
 				</div>
@@ -55,7 +50,7 @@
 							<% if current_user.id == post.user_id%>
 								<%= link_to 'Destroy', post_path(post),
 					            data: {:confirm => 'Are you sure?'}, :method => :delete %>
-					      <%= link_to 'Edit',edit_post_path(post), remote:true%>
+					      <%= link_to 'Edit',edit_post_path(post) %>
 							<% end %>
 				    </p>
 				    <p>

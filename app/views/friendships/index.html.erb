@@ -1,6 +1,10 @@
 <div class="col-md-12">
 	<div class="col-md-5"><h3>Facebook Friends</h3>
-	<button>Find Friends</button>
+	<% if current_user.oauth_token.present? %>
+		<%= link_to 'Invite fb friends',facebook_profile_path, :method => :get, :id => "invite_fb_friends", :class => "btn btn-primary btn-sm space" %>
+		<% else %>
+		<%= link_to "Sign up by facebook",user_facebook_omniauth_authorize_path,:method => :get, :class => "btn btn-primary btn-sm space" %>
+		<% end %>
 	</div>
 
 	<div class="col-md-4">				 

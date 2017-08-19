@@ -8,23 +8,19 @@ class BookmarkController < ApplicationController
 		@post = Post.find(params[:post_id])
     @bookmark = @post.bookmarks.build(:user_id => current_user.id)
 		if @bookmark.save
-      flash[:notice] = "Saved as Bookmark."
+      flash[:notice] = t('bookmark.save')
        redirect_to posts_path
      else
-      flash[:error] = "not saved"
-      redirect_to posts_path
-    end
+    	@bookmark.errors.full_messages
+    	flash[:error] = t('bookmark.not_save')
+    	redirect_to posts_path
+		end
 	end
 	
 	def destroy
-		@post = Post.find(params[:id])
-		@bookmark = Bookmark.where(post_id: @post, user_id: current_user)	.first
-		if @bookmark.destroy
-			flash[:notice] = "Removed from bookmark"
-			redirect_to posts_path
-		else
-			flash[:error] = "Unable to remove"
-			redirect_to posts_path
-		end
+		@bookmark = Bookmark.find(params[:id])
+		@bookmark.destroy
+		flash[:notice] = t('bookmark.remove')
+		redirect_to posts_path
 	end
 end

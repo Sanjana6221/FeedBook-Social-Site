@@ -287,11 +287,11 @@ Devise.setup do |config|
 
   #Add your ID and secret here
   #ID first, secret second
-  config.omniauth :facebook, "807624659398343", "51694ea505ec7939e3473475091482f8", scope: 'email, read_custom_friendlists', info_fields: 'email, name'
+  config.omniauth :facebook, Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_secret_id, :iframe => true, scope: 'email, user_friends, public_profile'
 
 
-  config.omniauth :twitter, "VAsWIEvXq3bPDnnCfZnS9mrQg", "LUbkp7IoX6nku9Qf9htD2kOJ6l0tV9Da2EFYTduGcJzoAJv47T", scope: 'email', info_fields: 'email'
+  config.omniauth :twitter, Rails.application.secrets.twitter_app_id, Rails.application.secrets.twitter_secret_id, scope: 'email', info_fields: 'email'
 
-  config.omniauth :google_oauth2, "684383346085-7fhmk560ss4ec6dcqttj37bdvoah421j.apps.googleusercontent.com", "KGGIJ8ioflUa01j_LIt0J9eU", scope: 'email'
+  config.omniauth :google_oauth2, Rails.application.secrets.google_oauth2_app_id, Rails.application.secrets.google_oauth2_secret_id, scope: 'email'
 
 end
