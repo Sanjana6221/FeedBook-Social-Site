@@ -14,7 +14,7 @@ class Post < ApplicationRecord
 	
 	def content_or_image
 		unless !content.blank? or !image.blank? 
-      errors.add(:base, "Specify a charge or a payment, not both")
+      errors.add(:base, "Specify a content or a image, not both")
     end
 	end
 	def timestamp

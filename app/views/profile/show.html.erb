@@ -1,68 +1,74 @@
 <div class="containert text-center">
-		<div class="col-md-12 info">
-			<div class="col-md-6 text-left">
-				 <h4>User Basic information</h4>
-				<div class="col-md-8 offset-4">
-					<p class="col-md-6 text-left">Firstname:</p>
-					<p class="col-md-6 text-left"><%= @user.firstname %></p>
-				</div>
-			
-				<div class="col-md-8 offset-4">
-					<p class="col-md-6 text-left">Lastname:</p>
-					<p class="col-md-6 text-left"><%= @user.lastname %></p>
-				</div>
+  <div class="col-md-12 info">
+    <div class="col-md-4 text-left">
+      <h4>User Basic information</h4>
+      <div class="col-md-8 offset-4">
+        <p class="col-md-6 text-left">Firstname:</p>
+        <p class="col-md-6 text-left"><%= @user.firstname %></p>
+      </div>
+    
+      <div class="col-md-8 offset-4">
+        <p class="col-md-6 text-left">Lastname:</p>
+        <p class="col-md-6 text-left"><%= @user.lastname %></p>
+      </div>
 
-				<div class="col-md-8 offset-4">
-							<p class="col-md-6 text-left">Country:</p>
-							<p class="col-md-6 text-left"><%= @user.country %></p>
-				</div>
+      <div class="col-md-8 offset-4">
+        <p class="col-md-6 text-left">Country:</p>
+        <p class="col-md-6 text-left"><%= @user.country %></p>
+      </div>
 
-				<div class="col-md-8 offset-4">
-							<p class="col-md-6 text-left">language:</p>
-							<p class="col-md-6 text-left"><%= @user.language %></p>
-				</div>
+      <div class="col-md-8 offset-4">
+        <p class="col-md-6 text-left">language:</p>
+        <p class="col-md-6 text-left"><%= @user.language %></p>
+      </div>
 
-				<div class="col-md-8 offset-4">
-							<p class="col-md-6 text-left">Email:</p>
-							<p class="col-md-6 text-left"><%= @user.email %></p>
-				</div>
+      <div class="col-md-8 offset-4">
+        <p class="col-md-6 text-left">Email:</p>
+        <p class="col-md-6 text-left"><%= @user.email %></p>
+      </div>
 
-				<div class="col-md-8 offset-4">
-							<p class="col-md-6 text-left">Birth date:</p>
-							<p class="col-md-6 text-left"><%#= @user.birth_date %></p>
-				</div>
+      <div class="col-md-8 offset-4">
+        <p class="col-md-6 text-left">Birth date:</p>
+        <p class="col-md-6 text-left"><%#= @user.birth_date %></p>
+      </div>
 
-				<div class="col-md-12">
-					<%= link_to 'Edit Profile', edit_user_registration_path(), :class => "btn btn-primary btn-sm" %>
-				</div>
-			</div>
+      <div class="col-md-12">
+        <%= link_to "Edit Profile", edit_user_registration_path(), remote: true%>
+      </div>
+    </div>
+    
+    <div class="col-md-4 text-left">
+      <% @posts.each do |post| %>
+        <div class="my-posts">
+          <p><%= post.content %></p>
+          <p class="img"><%= image_tag post.image %></p>
+          <p>
+            Privacy: <%= post.privacy_type %>
+            <small><em><%= post.timestamp %></em></small>
+          </p>
+          <p>
+            <% if current_user.id == post.user_id%>
+              <%= link_to 'Destroy', post_path(post),
+              data: {:confirm => 'Are you sure?'}, :method => :delete %>
+              <%= link_to 'Edit', edit_post_path(post), remote: true %>
+            <% end %>
+          </p>
+          <p>
+          <% bookmarked_post = current_user.bookmarks.find_by(post_id: post.id) %>
+            <% if bookmarked_post.present? %>
+              <%= link_to "remove", bookmark_path(bookmarked_post.id), :method => :delete %>
+            <% else %>
+              <%= link_to "save", bookmark_index_path(:post_id => post.id), :method => :post %>
+            <% end %>
+          </p>
+        </div>
+      <% end %>
+    </div>
 
-			<div class="col-md-6 text-left">
-				<% @posts.each do |post| %>
-					<div class="my-posts">
-						<p><%= post.content %></p>
-						<p class="img"><%= image_tag post.image %></p>
-						<p>
-							Privacy: <%= post.privacy_type %>
-							<small><em><%= post.timestamp %></em></small>
-						</p>
-						<p>
-							<% if current_user.id == post.user_id%>
-								<%= link_to 'Destroy', post_path(post),
-					            data: {:confirm => 'Are you sure?'}, :method => :delete %>
-					      <%= link_to 'Edit',edit_post_path(post) %>
-							<% end %>
-				    </p>
-				    <p>
-					   	<% if post.bookmarks.exists?%>
-					   		<%= link_to "remove",bookmark_path(post.id), :method => :delete %>
-					   	<% else %>
-					   		<%= link_to "save",bookmark_index_path(:post_id => post.id), :method => :post %>
-					   	<% end %>
-				   	</p>
-					</div>
-				<% end %>
-			</div>
-		</div>
+    <div class="col-md-4 text-left">
+      <div id="profile-info" style="display:none;"></div>
+      <div id="post-form" style="display:none;"></div>
+    </div>
+  </div>
 </div>
-
+  

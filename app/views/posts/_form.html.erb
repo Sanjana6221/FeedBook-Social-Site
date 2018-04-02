@@ -1,24 +1,22 @@
-
-  <%= form_for @post do |f| %>
+<%= form_for @post, remote: true do |post_form| %>
   <div class="col-md-12 text-left">
-
     <div class="col-md-6">
-      <%= f.label :content %><br>
-      <%= f.text_field :content %>
+      <%= post_form.label :content %><br>
+      <%= post_form.text_field :content %>
     </div>
         
     <div class="col-md-6">
-      <%= f.label :image %><br>
-      <%= f.file_field :image %>
+      <%= post_form.label :image %><br>
+      <%= post_form.file_field :image %>
     </div>
        
     <div class="col-md-12 post-content">
-      <%= f.label :privacy_type%> 
-      <%= f.select :privacy_type, Post.privacy_types %>
+      <%= post_form.label :privacy_type%> 
+      <%= post_form.select :privacy_type, Post.privacy_types %>
     </div>
-        
+       
     <div class="col-md-12 post-content">
-      <%= f.submit %>
+      <%= post_form.submit %>
     </div>
   </div>
-  <% end %>
+<% end %>

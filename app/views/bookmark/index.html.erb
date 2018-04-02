@@ -1,37 +1,35 @@
 <% if @bookmarks.count == 0 %>
-	<h3>No Posts Saved yet</h3>
+  <h3>No Posts Saved yet</h3>
 <% else %>
-	<h3>Bookmarked posts</h3>
-	<ul>
-		<%= @bookmarks.each do |post|%>
-			<li>
-				<div id="my-posts">
-					<p><%= post.content %></p>
-					<p class="img"><%= image_tag post.image %></p>
-					<p>
-							Privacy: <%= post.privacy_type %>
-							<small><em><%= post.timestamp %></em></small>
-					</p>
-					<p>
-						<% if current_user.id == post.user_id%>
-							<%= link_to 'Destroy', post_path(post),
-						        data: {:confirm => 'Are you sure?'}, :method => :delete %>
-						  <%= link_to 'Edit',edit_post_path(post), remote:true%>
-						<% end %>
-					</p>
-					<p>
-						<% if post.bookmarks.exists?%>
-						  <%= link_to "remove",bookmark_path(post.id), :method => :delete %>
-						<% else %>
-						  <%= link_to "save",bookmark_index_path(:post_id => post.id), :method => :post %>
-						<% end %>
-					</p>
-				</div>
-			</li>
-		<% end %>
-	</ul>
-	<%= will_paginate @bookmarks %>
+  <h3>Bookmarked posts</h3>
+  <ul>
+    <%= @bookmarks.each do |post|%>
+      <li>
+        <div id="my-posts">
+          <p><%= post.content %></p>
+          <p class="img"><%= image_tag post.image %></p>
+          <p>
+            Privacy: <%= post.privacy_type %>
+            <small><em><%= post.timestamp %></em></small>
+          </p>
+          <p>
+            <% if current_user.id == post.user_id%>
+              <%= link_to 'Destroy', post_path(post),
+              data: {:confirm => 'Are you sure?'}, :method => :delete %>
+              <%= link_to 'Edit',edit_post_path(post), remote:true%>
+            <% end %>
+          </p>
+          <p>
+            <% bookmarked_post = current_user.bookmarks.find_by(post_id: post.id) %>
+            <% if bookmarked_post.present? %>
+              <%= link_to "remove", bookmark_path(bookmarked_post.id), :method => :delete %>
+            <% else %>
+              <%= link_to "save", bookmark_index_path(:post_id => post.id), :method => :post %>
+            <% end %>
+        </p>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<%= will_paginate @bookmarks %>
 <% end %>
-
-
-

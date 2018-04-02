@@ -1,2 +1,2 @@
-$('.addpostform').hide
-alert("hello");
+$('#post-form').html("<%= j (render 'posts/form') %>");
+$('#post-form').slideDown(350);

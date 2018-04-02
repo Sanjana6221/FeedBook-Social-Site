@@ -1,0 +1,13 @@
+<div class="container">
+<h3>Friends from facebook</h3>
+<table class="table table-striped">
+  <tr>
+  	<th>Name</th>
+  </tr>
+  <% @friends.each do |f| %>
+  	<tr>	
+  	  <td><a href="http://facebook.com/<%= f["id"] %>"><%= f["name"] %></a></td>
+  	</tr>
+  <% end %>
+</table>
+</div>
