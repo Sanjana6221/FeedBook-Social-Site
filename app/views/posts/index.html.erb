@@ -1,6 +1,6 @@
 <div class="container">
   <div class="col-md-12 text-center">
-    <h3>Welcome <%= current_user.firstname.capitalize 	%></h3>
+    <h3>Welcome <%= current_user.firstname.capitalize %></h3>
   </div>
 
   <div class="col-md-12">
@@ -12,31 +12,9 @@
     </div>
 
     <div class="col-md-6">
-      <% @posts.each do |post| %>
-        <div id="my-posts">
-          <p><%= post.content %></p>
-          <p class="img"><%= image_tag post.image %></p>
-          <p>
-            Privacy: <%= post.privacy_type %>
-            <small><em><%= post.timestamp %></em></small>
-          </p>
-          <p>
-            <% if current_user.id == post.user_id%>
-              <%= link_to 'Delete', post_path(post), remote: true, method: :delete, data: { confirm: 'Are you sure?' } %>
-              <%= link_to 'Edit', edit_post_path(post), remote: true %>
-            <% end %>
-          </p>
-          <p>
-            <% bookmarked_post = current_user.bookmarks.find_by(post_id: post.id) %>
-            <% if bookmarked_post.present? %>
-              <%= link_to "remove", bookmark_path(bookmarked_post.id), :method => :delete, remote: true %>
-            <% else %>
-              <%= link_to "save", bookmark_index_path(:post_id => post.id), :method => :post, remote: true %>
-            <% end %>
-          </p>
-        </div>
-      <% end %>
-
+      <div id="my-posts">
+        <%= render @posts %>
+      </div>
       <div id="infinite-scrolling">
         <%= will_paginate @posts %>
       </div>

@@ -1,11 +1,22 @@
-<% @posts.each do |post| %>
-	<div>
-	  <p><%= post.content %></p>
-
-	  <p class="img"><%= image_tag post.image %></p>
-
-	  <p>Privacy: <%= post.privacy_type %>
-			<small><em><%= post.timestamp %></em></small>
-		</p>
-	</div>
-<% end %> 
+<div class="post-content">
+  <p><b><%= post.content.capitalize %></b></p>
+  <p class="img"><%= image_tag post.image if post.image.present? %></p>
+  <p>
+    Privacy: <%= post.privacy_type %>
+    <small><em><%= post.timestamp %></em></small>
+  </p>  
+  <p>
+    <% if current_user.id == post.user_id %>
+      <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, remote: true, class: 'delete_post' %>
+      <%= link_to 'Edit', edit_post_path(post), remote: true %>
+    <% end %>
+  </p>
+  <p>
+    <% bookmarked_post = current_user.bookmarks.find_by(post_id: post.id) %>
+    <% if bookmarked_post.present? %>
+      <%= link_to "remove", bookmark_path(bookmarked_post.id), :method => :delete, remote: true %>
+    <% else %>
+      <%= link_to "save", bookmark_index_path(:post_id => post.id), :method => :post, remote: true %>
+    <% end %>
+  </p>
+</div>

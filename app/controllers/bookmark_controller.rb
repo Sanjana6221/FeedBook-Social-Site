@@ -9,12 +9,12 @@ class BookmarkController < ApplicationController
     bookmark = post.bookmarks.build(:user_id => current_user.id)
     if bookmark.save
       flash[:notice] = t('bookmark.save')
-      redirect_to posts_path
     else
-      bookmark.errors.full_messages
-      flash[:error] = t('bookmark.not_save')
-      redirect_to posts_path
+      # bookmark.errors.full_messages
+      # flash[:error] = t('bookmark.not_save')
+      flash[:error] = bookmark.errors.full_messages
     end
+    redirect_to posts_path
   end
 
   def destroy

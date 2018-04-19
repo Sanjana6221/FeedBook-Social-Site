@@ -5,4 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-AdminUser.create!(email: '471848396509191@facebook.com', password: '12345678', password_confirmation: '12345678') if Rails.env.development?
+# AdminUser.create!(email: '471848396509191@facebook.com', password: '12345678', password_confirmation: '12345678') if Rails.env.development?
+
+50.times { |i| Post.create(content: "Post value #{i}", privacy_type: 'friends', user_id: 66) }

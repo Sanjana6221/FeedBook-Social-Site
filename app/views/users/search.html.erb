@@ -1,71 +1,64 @@
 <% if @search_user.present? %>
-	<h2>Search Result</h2>
-	<div class="container">
-		<div class="col-md-12">
-			<div class="col-md-8">
-				 <h4> Profile of <%= @search_user.firstname %></h4>
-				<div class="col-md-8 offset-4">
-					<p class="col-md-6 text-left">Pic:</p>
-					<p class="col-md-6 text-left"><%#= image_tag @search_user.image_url.to_s if @search_user.image_url.present? %></p>
-				</div>
-					
-				<div class="col-md-8 offset-4">
-					<p class="col-md-6 text-left">Firstname:</p>
-					<p class="col-md-6 text-left"><%= @search_user.firstname %></p>
-				</div>
-			
-				<div class="col-md-8 offset-4">
-					<p class="col-md-6 text-left">Lastname:</p>
-					<p class="col-md-6 text-left"><%= @search_user.lastname %></p>
-				</div>
+  <h2>Search Result</h2>
+  <div class="container">
+    <div class="col-md-12">
+      <div class="col-md-8">
+        <h4> Profile of <%= @search_user.firstname %></h4>
+        <div class="col-md-8 offset-4">
+          <p class="col-md-6 text-left">Pic:</p>
+          <p class="col-md-6 text-left"><%#= image_tag @search_user.image_url.to_s if @search_user.image_url.present? %></p>
+        </div>
 
-				<div class="col-md-8 offset-4">
-							<p class="col-md-6 text-left">Country:</p>
-							<p class="col-md-6 text-left"><%= @search_user.country %></p>
-				</div>
+        <div class="col-md-8 offset-4">
+          <p class="col-md-6 text-left">Firstname:</p>
+          <p class="col-md-6 text-left"><%= @search_user.firstname %></p>
+        </div>
 
-				<div class="col-md-8 offset-4">
-							<p class="col-md-6 text-left">language:</p>
-							<p class="col-md-6 text-left"><%= @search_user.language %></p>
-				</div>
+        <div class="col-md-8 offset-4">
+          <p class="col-md-6 text-left">Lastname:</p>
+          <p class="col-md-6 text-left"><%= @search_user.lastname %></p>
+        </div>  
 
-				<div class="col-md-8 offset-4">
-							<p class="col-md-6 text-left">Email:</p>
-							<p class="col-md-6 text-left"><%= @search_user.email %></p>
-				</div>
+        <div class="col-md-8 offset-4">
+          <p class="col-md-6 text-left">Country:</p>
+          <p class="col-md-6 text-left"><%= @search_user.country %></p>
+        </div>
 
-				<div class="col-md-8 offset-4">
-							<p class="col-md-6 text-left">Birth date:</p>
-							<p class="col-md-6 text-left"><%#= @search_user.birth_date %></p>
-				</div>
+        <div class="col-md-8 offset-4">
+          <p class="col-md-6 text-left">language:</p>
+          <p class="col-md-6 text-left"><%= @search_user.language %></p>
+        </div>
 
-				<% if current_user.is_mutual_friend_with?(@search_user) %>
-						<% friendship = current_user.get_mutual_friendship_with(@search_user) %>
+        <div class="col-md-8 offset-4">
+          <p class="col-md-6 text-left">Email:</p>
+          <p class="col-md-6 text-left"><%= @search_user.email %></p>
+        </div>
 
-						<% if friendship.pending? %>
+        <div class="col-md-8 offset-4">
+          <p class="col-md-6 text-left">Birth date:</p>
+          <p class="col-md-6 text-left"><%#= @search_user.birth_date %></p>
+        </div>
 
-							<button><%= link_to "Accept", friendship_path(friendship), method:"put" %></button>
-							<button><%= link_to "Reject",	friendship_path(friendship), method:"delete" %></button>
+        <% if current_user.is_mutual_friend_with?(@search_user) %>
+          <% friendship = current_user.get_mutual_friendship_with(@search_user) %>
+          <% if friendship.pending? %>
+            <button><%= link_to "Accept", friendship_path(friendship), method:"put" %></button>
+            <button><%= link_to "Reject",	friendship_path(friendship), method:"delete" %></button>
+          <% elsif friendship.rejected? %>
+            <button><%= link_to "Add Friend",  friendships_path(:friend_id => @search_user), :method => :post  %></button>
+          <% elsif friendship.accepted? %>
+            <button><%= link_to "Unfriend", friendship_path(friendship), method:"delete"%></button>
+          <% elsif current_user.sent_request_to?(@search_user) %>
+            <button><%= link_to "Cancel sent Request", friendship, :method => :delete %></button>
+          <% end %>
+        <% else %>
+          <button><%= link_to "Add Friend", friendships_path(:friend_id => @search_user), :method => :post %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
-						<% elsif friendship.rejected? %>
-							<button><%= link_to "Add Friend",  friendships_path(:friend_id => @search_user), :method => :post  %></button>
-
-						<% elsif friendship.accepted? %>
-							<button><%= link_to "Unfriend", friendship_path(friendship), method:"delete"%></button>
-
-						<% elsif current_user.sent_request_to?(@search_user) %>
-							<button><%= link_to "Cancel sent Request", friendship, :method => :delete %></button>
-					<% end %>
-				<% else %>
-						<button><%= link_to "Add Friend", friendships_path(:friend_id => @search_user), :method => :post %>
-						</button>
-				<% end %>
-			</div>
-		</div>
-	</div>
-	
 <% else %>
-
-	<h2>No matches</h2>
-
+  <h2>No matches</h2>
 <% end %>

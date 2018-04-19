@@ -10,11 +10,10 @@ class FriendshipsController < ApplicationController
     @friendship = current_user.friendships.build(:friend_id => params[:friend_id])
     if @friendship.save
       flash[:notice] = t('friendship.create')
-      redirect_to friendships_path
     else
       flash[:notice] = t('friendship.create_error')
-      redirect_to friendships_path
     end
+    redirect_to friendships_path
   end
 
   # Only For friendship request (accept/reject)
@@ -26,7 +25,7 @@ class FriendshipsController < ApplicationController
       @friendship.rejected!
       flash[:notice] = t('friendship.ignore')
     end
-      redirect_to friendships_path
+    redirect_to friendships_path
   end
 
   def destroy

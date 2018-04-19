@@ -1,1 +1,3 @@
-$('#post').html("<%= j (render @post) %>");
+$('.delete_post').bind('ajax:success', function() {  
+  $(this).closest('tr').fadeOut();
+});

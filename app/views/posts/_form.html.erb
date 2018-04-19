@@ -2,7 +2,7 @@
   <div class="col-md-12 text-left">
     <div class="col-md-6">
       <%= post_form.label :content %><br>
-      <%= post_form.text_field :content %>
+      <%= post_form.text_field :content, class: 'test', value: '' %>
     </div>
         
     <div class="col-md-6">
@@ -20,3 +20,4 @@
     </div>
   </div>
 <% end %>
+Post Content: <div class="user-post"></div>

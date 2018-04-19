@@ -1,9 +1,12 @@
+Person = Struct.new(:name, :address)
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  CONSTANT_ARRAY = [0,1,2,3]
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,:confirmable,:omniauthable, :omniauth_providers => [:facebook,:twitter,:google_oauth2]
-
+  delegate :test_user3, to: :class
   has_many :posts,dependent: :destroy
   has_one :picture, as: :imageable
   
@@ -37,6 +40,19 @@ class User < ApplicationRecord
   serialize :language
 
   ALLOWED_LANGUAGES = ["Hindi", "English", "Other"]
+  
+  def test_user
+    "in model user method first"
+  end
+
+  def test_user2
+    "in model user method second"
+  end
+
+  def self.test_user3
+    "test user 3"
+  end
+
   def self.search_user(search)
     if search.present?
       @user = User.find_by(email: search)
